@@ -4,7 +4,7 @@
   "description": "API to support a system of posting needs and offerings during the 2020 COVID-19 outbreak in NYC",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npx nodemon dev-server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/sfrieson/covid-19-outbreak-needs-api/issues"
   },
-  "homepage": "https://github.com/sfrieson/covid-19-outbreak-needs-api#readme"
+  "homepage": "https://github.com/sfrieson/covid-19-outbreak-needs-api#readme",
+  "devDependencies": {
+    "express": "^4.17.1"
+  },
+  "dependencies": {
+    "contentful": "^7.14.0"
+  }
 }
