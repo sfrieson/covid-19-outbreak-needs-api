@@ -1,3 +1,5 @@
+const response = require("../utils/response");
+
 exports.handler = (event, ctx, cb) => {
-  cb(null, { statusCode: 200, body: JSON.stringify(["list", "of", "stuff"]) });
+  cb(null, response(["list", "of", "stuff"]));
 };
