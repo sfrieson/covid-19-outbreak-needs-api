@@ -1,0 +1,19 @@
+{
+  "name": "covid-19-outbreak-needs-api",
+  "version": "1.0.0",
+  "description": "API to support a system of posting needs and offerings during the 2020 COVID-19 outbreak in NYC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sfrieson/covid-19-outbreak-needs-api.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sfrieson/covid-19-outbreak-needs-api/issues"
+  },
+  "homepage": "https://github.com/sfrieson/covid-19-outbreak-needs-api#readme"
+}
