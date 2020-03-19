@@ -1,3 +1,4 @@
+// https://docs.netlify.com/functions/build-with-javascript
 const express = require("express");
 
 const app = express();
@@ -5,9 +6,15 @@ const app = express();
 const functions = ["get-list"];
 
 functions.forEach(endpoint => {
-  app.get(`/${endpoint}`, (req, res) => {
+  app.use(`/${endpoint}`, (req, res) => {
     const event = {
-      endpoint
+      path: endpoint,
+      httpMethod: "Incoming request's method name",
+      headers: "{Incoming request headers}",
+      queryStringParameters: "{query string parameters}",
+      body: "A JSON string of the request payload.",
+      isBase64Encoded:
+        "A boolean flag to indicate if the applicable request payload is Base64-encode"
     };
     const context = {};
 
@@ -18,7 +25,8 @@ functions.forEach(endpoint => {
         if (err) {
           res.status(500).send(err.message);
         } else {
-          res.status(data.statusCode).json(data.body);
+          res.setHeader("Content-Type", "application/json");
+          res.status(data.statusCode).send(data.body);
         }
       }
     );
