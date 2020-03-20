@@ -20,7 +20,7 @@
     "express": "^4.17.1"
   },
   "dependencies": {
-    "contentful": "^7.14.0",
+    "contentful-management": "^5.14.0",
     "cryptr": "^6.0.1"
   }
 }

@@ -6,7 +6,7 @@ exports.handler = (event, ctx, cb) => {
   data
     .getListings({ isForClient: false })
     .then(items => {
-      cb(null, response(items));
+      cb(null, response.success(items));
     })
     .catch(err => {
       cb(err);

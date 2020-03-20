@@ -3,16 +3,18 @@ const express = require("express");
 
 const app = express();
 
-const functions = ["get-list"];
+app.use(express.json());
+
+const functions = ["add", "get-list"];
 
 functions.forEach(endpoint => {
   app.use(`/${endpoint}`, (req, res) => {
     const event = {
       path: endpoint,
-      httpMethod: "Incoming request's method name",
+      httpMethod: req.method,
       headers: "{Incoming request headers}",
       queryStringParameters: "{query string parameters}",
-      body: "A JSON string of the request payload.",
+      body: req.body,
       isBase64Encoded:
         "A boolean flag to indicate if the applicable request payload is Base64-encode"
     };

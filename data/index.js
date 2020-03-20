@@ -7,7 +7,7 @@ const clientFields = [
   "id",
   "createdAt"
 ];
-const createListing = (data, isForClient) => {
+const parseListingData = (data, isForClient) => {
   const listing = {
     id: data.sys.id,
     createdAt: data.sys.createdAt,
@@ -30,17 +30,52 @@ const createListing = (data, isForClient) => {
   return listing;
 };
 
+const createListing = data => {
+  const { encode } = require("../utils/encode");
+
+  return {
+    title: {
+      "en-US": data.title
+    },
+    name: {
+      "en-US": encode(data.name)
+    },
+    category: {
+      "en-US": data.category
+    },
+    details: {
+      "en-US": data.details
+    },
+    phoneNumber: {
+      "en-US": encode(data.phoneNumber)
+    },
+    email: {
+      "en-US": encode(data.email)
+    },
+    status: {
+      "en-US": false
+    }
+  };
+};
+
 module.exports = {
   getListings: ({ isForClient }) => {
     return getClient()
-      .getEntries()
+      .then(client => client.getEntries())
       .then(res =>
-        res.items.map(listing => createListing(listing, isForClient))
+        res.items.map(listing => parseListingData(listing, isForClient))
       );
   },
   getListing: ({ id, isForClient }) => {
     return getClient()
-      .getEntry(id)
-      .then(item => createListing(item, isForClient));
+      .then(client => client.getEntry(id))
+      .then(item => parseListingData(item, isForClient));
+  },
+  addListing: data => {
+    const listing = createListing(data);
+
+    return getClient().then(client =>
+      client.createEntry("listing", { fields: listing })
+    );
   }
 };
