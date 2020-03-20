@@ -75,7 +75,9 @@ module.exports = {
     const listing = createListing(data);
 
     return getClient().then(client =>
-      client.createEntry("listing", { fields: listing })
+      client
+        .createEntry("listing", { fields: listing })
+        .then(entity => entity.publish())
     );
   }
 };
