@@ -1,8 +1,10 @@
 const response = require("../utils/response");
-const { getListings } = require("../data");
+const data = require("../data");
 
+// For client to get the current list of Listings
 exports.handler = (event, ctx, cb) => {
-  getListing({})
+  data
+    .getListings({ isForClient: false })
     .then(items => {
       cb(null, response(items));
     })
