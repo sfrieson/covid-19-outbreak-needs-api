@@ -1,5 +1,8 @@
 const response = require("../utils/response");
+const { getListings } = require("../data");
 
 exports.handler = (event, ctx, cb) => {
-  cb(null, response(["list", "of", "stuff"]));
+  getListings().then(items => {
+    cb(null, response(items));
+  });
 };
