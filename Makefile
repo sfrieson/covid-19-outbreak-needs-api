@@ -8,3 +8,6 @@ functions/node_modules: functions/package-lock.json functions/package.json
 .PHONY: server
 server: .runtimeconfig.json functions/node_modules
 	firebase emulators:start --only functions
+
+deploy:
+	firebase deploy --only functions
