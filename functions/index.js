@@ -34,7 +34,7 @@ function filterByPublishedStatus(rows, stati) {
   console.log(stati);
   return rows.filter((row, i) => {
     if (i === 0) return true; // keep the heading row
-    return stati[i][0] === "Published";
+    return stati[i] && stati[i][0] === "Published";
   });
 }
 
