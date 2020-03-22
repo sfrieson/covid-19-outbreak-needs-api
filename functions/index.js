@@ -23,8 +23,16 @@ function mergeRanges(ranges) {
   }, []);
 }
 
+function filterByPublishedStatus(rows, stati) {
+  console.log(stati);
+  return rows.filter((row, i) => {
+    if (i === 0) return true; // keep the heading row
+    return stati[i][0] === "Published";
+  });
+}
+
 async function getListings(api) {
-  const ranges = ["'Form Responses'!A:A", "'Form Responses'!C:F"];
+  const ranges = ["'Form Responses'!A:A", "'Form Responses'!C:F", "Status"];
   let response = await api.spreadsheets.values.batchGet({
     spreadsheetId: functions.config().sheets.spreadsheet_id,
     ranges
@@ -32,10 +40,14 @@ async function getListings(api) {
 
   // Over all the rows
   const rows = mergeRanges(
-    response.data.valueRanges.map(valueRange => valueRange.values)
+    response.data.valueRanges.slice(0, -1).map(valueRange => valueRange.values)
   );
 
-  return rows;
+  const publishedRows = filterByPublishedStatus(
+    rows,
+    response.data.valueRanges[ranges.length - 1].values
+  );
+  return publishedRows;
 }
 
 // Create and Deploy Your First Cloud Functions
