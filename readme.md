@@ -14,7 +14,7 @@ You need a valid `.firebaserc` file. It should look something like this:
 }
 ```
 
-This should be the only file that you need to add to your repository before starting.
+You will also need the credentials JSON file for the "App Engine default service account" [exported as an environment variable](https://cloud.google.com/docs/authentication/getting-started#auth-cloud-implicit-nodejs).
 
 ### Starting the server
 

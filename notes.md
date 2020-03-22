@@ -2,13 +2,7 @@
 
 # Endpoints
 
-## get-list
+## getListings
 
 - [x] returns a list of filtered entities
-- [ ] Filters out the finished ones
-
-## add
-
-- [x] creates an entity
-- [x] publishes the entity
-- [ ] returns the entity filtered
+- [x] Filters out the finished ones
