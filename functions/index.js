@@ -1,9 +1,16 @@
 const functions = require("firebase-functions");
 const { google } = require("googleapis");
 
-// The Firebase Admin SDK to access the Firebase Realtime Database.
-const admin = require("firebase-admin");
-admin.initializeApp();
+// https://cloud.google.com/blog/products/serverless/serverless-from-the-ground-up-building-a-simple-microservice-with-cloud-functions-part-1
+function handleCors(req, res) {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+  res.set("Access-Control-Max-Age", "3600");
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+  }
+}
 
 const getAPI = async () => {
   let auth = await google.auth.getClient({
@@ -54,6 +61,7 @@ async function getListings(api) {
 // https://firebase.google.com/docs/functions/write-firebase-functions
 
 exports.getListings = functions.https.onRequest(async (req, res) => {
+  handleCors(req, res);
   // Grab the text parameter.
   const api = await getAPI();
   const data = await getListings(api);
