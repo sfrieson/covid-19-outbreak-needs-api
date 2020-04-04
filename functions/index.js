@@ -1,5 +1,6 @@
 const functions = require("firebase-functions");
 const { google } = require("googleapis");
+const parseCategories = require("../utils/parse-categories");
 
 // https://cloud.google.com/blog/products/serverless/serverless-from-the-ground-up-building-a-simple-microservice-with-cloud-functions-part-1
 function handleCors(req, res) {
@@ -30,16 +31,23 @@ function mergeRanges(ranges) {
   }, []);
 }
 
-function filterByPublishedStatus(rows, stati) {
-  console.log(stati);
-  return rows.filter((row, i) => {
-    if (i === 0) return true; // keep the heading row
-    return stati[i] && stati[i][0] === "Published";
-  });
+const categoryIndex = 2;
+function parseAndfilterByPublishedStatus(rows, stati) {
+  return rows.reduce((filteredRows, row, i) => {
+    // keep the heading row
+    if (i === 0) {
+      filteredRows.push(row);
+    } else if (stati[i] && stati[i][0] === "Published") {
+      row[categoryIndex] = parseCategories(row[categoryIndex]);
+      filteredRows.push(row);
+    }
+
+    return filteredRows;
+  }, []);
 }
 
 async function getListings(api) {
-  const ranges = ["'Form Responses'!A:A", "'Form Responses'!C:F", "Status"];
+  const ranges = ["'Form Responses'!A:A", "PublicData", "Status"];
   let response = await api.spreadsheets.values.batchGet({
     spreadsheetId: functions.config().sheets.spreadsheet_id,
     ranges
@@ -50,7 +58,7 @@ async function getListings(api) {
     response.data.valueRanges.slice(0, -1).map(valueRange => valueRange.values)
   );
 
-  const publishedRows = filterByPublishedStatus(
+  const publishedRows = parseAndfilterByPublishedStatus(
     rows,
     response.data.valueRanges[ranges.length - 1].values
   );
