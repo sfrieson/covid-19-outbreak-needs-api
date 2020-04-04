@@ -12,7 +12,7 @@ const getSheetsAPI = async () => {
   return google.sheets({ version: "v4", auth });
 };
 
-// Caching this response allows the call too be possibly shared between function calls.
+// Caching this response allows the call to be possibly shared between function calls.
 let apiPromise;
 
 const ranges = ["'Form Responses'!A:A", "PublicData", "Status"];
