@@ -12,13 +12,18 @@ const getSheetsAPI = async () => {
   return google.sheets({ version: "v4", auth });
 };
 
+// Caching this response allows the call too be possibly shared between function calls.
+let apiPromise;
+
+const ranges = ["'Form Responses'!A:A", "PublicData", "Status"];
 /**
  * Returns a table (2D array) of published listings from the linked Google Sheet.
  * @returns {Promise<*[][]>}
  */
 async function getListings() {
-  const api = await getSheetsAPI();
-  const ranges = ["'Form Responses'!A:A", "PublicData", "Status"];
+  apiPromise = apiPromise || getSheetsAPI();
+
+  const api = await apiPromise;
   let response = await api.spreadsheets.values.batchGet({
     spreadsheetId: functions.config().sheets.spreadsheet_id,
     ranges,
